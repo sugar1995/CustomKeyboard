@@ -39,19 +39,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void popup() {
         View headerView = View.inflate(instance, R.layout.keyboard_header_xianyu, null);
-        Dialog dialog = CustomKeyboard
+        CustomKeyboard
                 .popup()
                 .setOnKeyClickListener(new PopupBuilder.OnKeyClickListener() {
                     @Override
                     public void onOkClick(Dialog dialog, CustomKeyboardView parent) {
-//                        dialog.dismiss();
-                        EditText editText = parent.findViewById(R.id.et_name);
-                        editText.requestFocus();
+                        dialog.dismiss();
                     }
                 })
                 .show(headerView);
-        EditText etLast = dialog.findViewById(R.id.et_last);
-        etLast.setVisibility(View.GONE);
     }
 
     private void bind(EditText editText) {

@@ -45,7 +45,6 @@
                 android:background="@drawable/selector_gray_to_transparent"
                 android:hint="0.00"
                 android:inputType="number"
-                android:enabled="false"
                 android:paddingLeft="8dp"
                 android:tag="child"
                 android:textColor="#303030"
@@ -81,7 +80,6 @@
                 android:hint="请输入名称"
                 android:paddingLeft="8dp"
                 android:tag="child"
-                android:enabled="false"
                 android:textColor="#303030"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -123,8 +121,7 @@
                 android:tag="child"
                 android:text="8.12"
                 android:textColor="#303030"
-                android:textSize="14sp"
-                android:visibility="invisible" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <View
@@ -163,7 +160,6 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/et_last"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/selector_gray_to_transparent"
@@ -171,5 +167,6 @@
         android:inputType="numberSigned|numberDecimal"
         android:paddingLeft="8dp"
         android:textColor="#303030"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:visibility="gone" />
 </LinearLayout>

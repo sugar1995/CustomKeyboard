@@ -3,6 +3,7 @@ package com.chhd.customkeyboard;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,8 @@ import java.util.List;
 
 public class CustomKeyboardView extends LinearLayout implements BaseKeyboardView.OnKeyClickListener {
 
+    private final String TAG = this.getClass().getSimpleName();
+
     private CustomKeyboardView instance;
 
     private FrameLayout flContainer;
@@ -34,13 +37,18 @@ public class CustomKeyboardView extends LinearLayout implements BaseKeyboardView
     private List<EditText> etList = new ArrayList<>();
     private EditText currentEt;
 
-    private boolean isKeyboardTab;
-
-    private OnKeyClickListener onKeyClickListener;
+    private boolean isKeyboardTab = true;
 
     public void setKeyboardTab(boolean keyboardTab) {
         isKeyboardTab = keyboardTab;
     }
+
+    public void setVibrate(boolean isVibrate) {
+        numberKeyboardView.setVibrate(isVibrate);
+        abcKeyboardView.setVibrate(isVibrate);
+    }
+
+    private OnKeyClickListener onKeyClickListener;
 
     public void setOnKeyClickListener(OnKeyClickListener onKeyClickListener) {
         this.onKeyClickListener = onKeyClickListener;
@@ -77,8 +85,17 @@ public class CustomKeyboardView extends LinearLayout implements BaseKeyboardView
 
     public void setContainerView(View containerView) {
         flContainer.addView(containerView);
+        post(new Runnable() {
+            @Override
+            public void run() {
+                initData();
+            }
+        });
+    }
+
+    private void initData() {
         etList.clear();
-        findEditText(etList, containerView);
+        findEditText(etList, instance);
         if (etList.isEmpty()) {
             throw new IllegalArgumentException("当前布局不含有任何EditText类型控件");
         }
@@ -93,6 +110,8 @@ public class CustomKeyboardView extends LinearLayout implements BaseKeyboardView
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     if (hasFocus) {
+                        etList.clear();
+                        findEditText(etList, instance);
                         attachTo((EditText) v);
                     }
                 }
@@ -100,7 +119,8 @@ public class CustomKeyboardView extends LinearLayout implements BaseKeyboardView
         }
     }
 
-    public void attachTo(EditText et) {
+    public void attachTo(final EditText et) {
+        Log.i(TAG, "attachTo: " + et);
         currentEt = et;
         et.setSelection(et.getText().length());
         et.requestFocus();

@@ -2,10 +2,8 @@ package com.chhd.customkeyboard.builder;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -16,7 +14,6 @@ import android.widget.FrameLayout;
 
 import com.chhd.customkeyboard.CustomKeyboard;
 import com.chhd.customkeyboard.KeyboardUtils;
-import com.chhd.customkeyboard.keyboard.ABCKeyboardView;
 import com.chhd.customkeyboard.keyboard.BaseKeyboardView;
 import com.chhd.customkeyboard.keyboard.NumberKeyboardView;
 import com.chhd.customkeyboard.R;
@@ -33,9 +30,16 @@ public class InsertBuilder {
 
     private EditText editText;
 
+    private boolean isVibrate = true;
+
     private OnKeyClickListener onKeyClickListener;
 
     public InsertBuilder() {
+    }
+
+    public InsertBuilder setVibrate(boolean isVibrate) {
+        this.isVibrate = isVibrate;
+        return this;
     }
 
     public InsertBuilder setOnKeyClickListener(OnKeyClickListener onKeyClickListener) {
@@ -73,6 +77,7 @@ public class InsertBuilder {
             keyboardView = (BaseKeyboardView) View.inflate(activity,
                     R.layout.layout_abc_keyboard_view, null);
         }
+        keyboardView.setVibrate(isVibrate);
         keyboardView.attachTo(editText);
         ViewGroup rootView = activity.getWindow().getDecorView().findViewById(android.R.id.content);
         rootView.addOnLayoutChangeListener(onLayoutChangeListener);
@@ -124,7 +129,7 @@ public class InsertBuilder {
             String tag = context.getResources().getString(R.string.tag_base_custom_view);
             BaseKeyboardView baseKeyboardView = rootView.findViewWithTag(tag);
             int hasMoved = 0;
-            Object heightTag = rootView.getTag(R.id.scroll_height_by_keyboard);
+            Object heightTag = rootView.getTag(R.id.scroll_height);
             if (heightTag != null) {
                 hasMoved = (int) heightTag;
             }
@@ -132,7 +137,7 @@ public class InsertBuilder {
                 rootView.removeOnLayoutChangeListener(this);
                 if (hasMoved > 0) {
                     rootView.getChildAt(0).scrollBy(0, -1 * hasMoved);
-                    rootView.setTag(R.id.scroll_height_by_keyboard, 0);
+                    rootView.setTag(R.id.scroll_height, 0);
                 }
             } else {
                 Rect rect = new Rect();
@@ -144,7 +149,7 @@ public class InsertBuilder {
                 int moveHeight = keyboardTop + baseKeyboardView.getHeight() - rect.bottom;
                 if (moveHeight > 0) {
                     rootView.getChildAt(0).scrollBy(0, moveHeight);
-                    rootView.setTag(R.id.scroll_height_by_keyboard, hasMoved + moveHeight);
+                    rootView.setTag(R.id.scroll_height, hasMoved + moveHeight);
                 }
             }
         }

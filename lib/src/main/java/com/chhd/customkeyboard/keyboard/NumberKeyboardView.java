@@ -52,19 +52,4 @@ public class NumberKeyboardView extends BaseKeyboardView {
         setKeyboard(new Keyboard(getContext(), R.xml.keyboard_number));
         setOnKeyboardActionListener(this);
     }
-
-    @Override
-    public void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-        for (Keyboard.Key key : getKeyboard().getKeys()) {
-            drawNumSpecialKey(key, canvas);
-        }
-    }
-
-    private void drawNumSpecialKey(Keyboard.Key key, Canvas canvas) {
-        if (TextUtils.isEmpty(key.label) && key.icon == null) {
-            drawKeyBackground(R.drawable.bg_not_touch, canvas, key);
-        }
-    }
 }

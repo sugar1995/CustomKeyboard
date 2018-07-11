@@ -17,6 +17,8 @@ public class PopupBuilder {
 
     private boolean isKeyboardTab = true;
 
+    private boolean isVibrate = true;
+
     private OnKeyClickListener onKeyClickListener;
 
     public PopupBuilder() {
@@ -33,6 +35,11 @@ public class PopupBuilder {
         return this;
     }
 
+    public PopupBuilder setVibrate(boolean isVibrate) {
+        this.isVibrate = isVibrate;
+        return this;
+    }
+
     public PopupBuilder setOnKeyClickListener(OnKeyClickListener onKeyClickListener) {
         this.onKeyClickListener = onKeyClickListener;
         return this;
@@ -42,6 +49,7 @@ public class PopupBuilder {
         Activity activity = (Activity) containerView.getContext();
         CustomKeyboardView contentView = new CustomKeyboardView(activity);
         contentView.setKeyboardTab(isKeyboardTab);
+        contentView.setVibrate(isVibrate);
         contentView.setContainerView(containerView);
         final Dialog dialog = new BottomDialog(activity);
         dialog.setContentView(contentView);

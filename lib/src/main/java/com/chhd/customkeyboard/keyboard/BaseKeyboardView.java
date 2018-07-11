@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.os.Vibrator;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
@@ -36,6 +38,12 @@ public abstract class BaseKeyboardView extends KeyboardView implements KeyboardV
         isOkTab = okTab;
     }
 
+    private boolean isVibrate = true;
+
+    public void setVibrate(boolean isVibrate) {
+        this.isVibrate = isVibrate;
+    }
+
     protected OnKeyClickListener onKeyClickListener;
 
     public void setOnKeyClickListener(OnKeyClickListener onKeyClickListener) {
@@ -61,6 +69,20 @@ public abstract class BaseKeyboardView extends KeyboardView implements KeyboardV
             key.icon = null;
         }
         super.onDraw(canvas);
+
+        for (Keyboard.Key item : getKeyboard().getKeys()) {
+            drawNotTouchKey(item, canvas);
+        }
+    }
+
+    private void drawNotTouchKey(Keyboard.Key key, Canvas canvas) {
+        if (!isValidKey(key)) {
+            drawKeyBackground(R.drawable.bg_not_touch, canvas, key);
+        }
+    }
+
+    private boolean isValidKey(Keyboard.Key key) {
+        return key != null && (!TextUtils.isEmpty(key.label) || key.icon != null);
     }
 
     protected void drawKeyBackground(int drawableId, Canvas canvas, Keyboard.Key key) {
@@ -87,7 +109,10 @@ public abstract class BaseKeyboardView extends KeyboardView implements KeyboardV
 
     @Override
     public void onPress(int primaryCode) {
-
+        Keyboard.Key key = getKey(primaryCode);
+        if (isValidKey(key)) {
+            vibrate();
+        }
     }
 
     @Override
@@ -125,6 +150,16 @@ public abstract class BaseKeyboardView extends KeyboardView implements KeyboardV
                 int start = editText.getSelectionStart();
                 char c = (char) primaryCode;
                 editText.getText().insert(start, c + "");
+            }
+        }
+    }
+
+    protected void vibrate() {
+        if (isVibrate) {
+            Vibrator vibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator != null) {
+                int millis = getContext().getResources().getInteger(R.integer.vibrate_millis);
+                vibrator.vibrate(millis);
             }
         }
     }
