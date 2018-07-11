@@ -38,7 +38,7 @@ public class PopupBuilder {
         return this;
     }
 
-    public void show(View containerView) {
+    public Dialog show(View containerView) {
         Activity activity = (Activity) containerView.getContext();
         CustomKeyboardView contentView = new CustomKeyboardView(activity);
         contentView.setKeyboardTab(isKeyboardTab);
@@ -54,6 +54,7 @@ public class PopupBuilder {
                 }
             }
         });
+        return dialog;
     }
 
     public interface OnKeyClickListener {
