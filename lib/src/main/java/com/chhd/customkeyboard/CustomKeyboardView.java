@@ -25,7 +25,7 @@ import java.util.List;
 
 public class CustomKeyboardView extends LinearLayout implements BaseKeyboardView.OnKeyClickListener {
 
-    private View instance;
+    private CustomKeyboardView instance;
 
     private FrameLayout flContainer;
     private NumberKeyboardView numberKeyboardView;
@@ -65,6 +65,8 @@ public class CustomKeyboardView extends LinearLayout implements BaseKeyboardView
 
         LayoutInflater.from(getContext()).inflate(R.layout.layout_popup, this, true);
 
+        setId(R.id.custom_keyboard_view);
+
         flContainer = findViewById(R.id.fl_container);
         numberKeyboardView = findViewById(R.id.number_keyboard_view);
         abcKeyboardView = findViewById(R.id.abc_keyboard_view);
@@ -75,12 +77,13 @@ public class CustomKeyboardView extends LinearLayout implements BaseKeyboardView
 
     public void setContainerView(View containerView) {
         flContainer.addView(containerView);
+        etList.clear();
         findEditText(etList, containerView);
         if (etList.isEmpty()) {
             throw new IllegalArgumentException("当前布局不含有任何EditText类型控件");
         }
         for (EditText et : etList) {
-            if (et.isEnabled()) {
+            if (isValid(et)) {
                 attachTo(et);
                 break;
             }
@@ -97,7 +100,7 @@ public class CustomKeyboardView extends LinearLayout implements BaseKeyboardView
         }
     }
 
-    private void attachTo(EditText et) {
+    public void attachTo(EditText et) {
         currentEt = et;
         et.setSelection(et.getText().length());
         et.requestFocus();
@@ -155,8 +158,14 @@ public class CustomKeyboardView extends LinearLayout implements BaseKeyboardView
         if (parent instanceof EditText) {
             EditText et = (EditText) parent;
             KeyboardUtils.disableSoftKeyboard(et);
-            list.add(et);
+            if (isValid(et)) {
+                list.add(et);
+            }
         }
+    }
+
+    private boolean isValid(EditText et) {
+        return et.isEnabled() && et.getVisibility() == VISIBLE;
     }
 
     @Override
@@ -166,11 +175,9 @@ public class CustomKeyboardView extends LinearLayout implements BaseKeyboardView
             int len = etList.size() - 1;
             for (int i = lastIndexOf + 1; i <= len; i++) {
                 EditText et = etList.get(i);
-                if (et.isEnabled()) {
-                    currentEt = et;
-                    attachTo(currentEt);
-                    return;
-                }
+                currentEt = et;
+                attachTo(currentEt);
+                return;
             }
         }
         if (onKeyClickListener != null) {
@@ -180,6 +187,6 @@ public class CustomKeyboardView extends LinearLayout implements BaseKeyboardView
 
     public interface OnKeyClickListener {
 
-        void onOkClick(View parent);
+        void onOkClick(CustomKeyboardView parent);
     }
 }

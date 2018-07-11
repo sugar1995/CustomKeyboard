@@ -48,7 +48,7 @@ public class PopupBuilder {
         dialog.show();
         contentView.setOnKeyClickListener(new CustomKeyboardView.OnKeyClickListener() {
             @Override
-            public void onOkClick(View parent) {
+            public void onOkClick(CustomKeyboardView parent) {
                 if (onKeyClickListener != null) {
                     onKeyClickListener.onOkClick(dialog, parent);
                 }
@@ -59,6 +59,6 @@ public class PopupBuilder {
 
     public interface OnKeyClickListener {
 
-        void onOkClick(Dialog dialog, View parent);
+        void onOkClick(Dialog dialog, CustomKeyboardView parent);
     }
 }

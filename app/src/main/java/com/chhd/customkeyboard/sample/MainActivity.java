@@ -1,13 +1,14 @@
 package com.chhd.customkeyboard.sample;
 
 import android.app.Dialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import com.chhd.customkeyboard.CustomKeyboard;
+import com.chhd.customkeyboard.CustomKeyboardView;
 import com.chhd.customkeyboard.builder.InsertBuilder;
 import com.chhd.customkeyboard.builder.PopupBuilder;
 
@@ -38,15 +39,19 @@ public class MainActivity extends AppCompatActivity {
 
     private void popup() {
         View headerView = View.inflate(instance, R.layout.keyboard_header_xianyu, null);
-        CustomKeyboard
+        Dialog dialog = CustomKeyboard
                 .popup()
                 .setOnKeyClickListener(new PopupBuilder.OnKeyClickListener() {
                     @Override
-                    public void onOkClick(Dialog dialog, View parent) {
-                        Log.i("debug-app", "PopupBuilder onOkClick");
+                    public void onOkClick(Dialog dialog, CustomKeyboardView parent) {
+//                        dialog.dismiss();
+                        EditText editText = parent.findViewById(R.id.et_name);
+                        editText.requestFocus();
                     }
                 })
                 .show(headerView);
+        EditText etLast = dialog.findViewById(R.id.et_last);
+        etLast.setVisibility(View.GONE);
     }
 
     private void bind(EditText editText) {
@@ -55,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
                 .setOnKeyClickListener(new InsertBuilder.OnKeyClickListener() {
                     @Override
                     public void onOkClick() {
-                        Log.i("debug-app", "InsertBuilder onOkClick");
                     }
                 })
                 .bind(editText);
