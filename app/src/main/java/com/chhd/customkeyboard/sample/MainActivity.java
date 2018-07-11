@@ -3,10 +3,12 @@ package com.chhd.customkeyboard.sample;
 import android.app.Dialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import com.chhd.customkeyboard.CustomKeyboard;
+import com.chhd.customkeyboard.builder.InsertBuilder;
 import com.chhd.customkeyboard.builder.PopupBuilder;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 .setOnKeyClickListener(new PopupBuilder.OnKeyClickListener() {
                     @Override
                     public void onOkClick(Dialog dialog, View parent) {
-
+                        Log.i("debug-app", "PopupBuilder onOkClick");
                     }
                 })
                 .show(headerView);
@@ -50,15 +52,12 @@ public class MainActivity extends AppCompatActivity {
     private void bind(EditText editText) {
         CustomKeyboard
                 .insert()
+                .setOnKeyClickListener(new InsertBuilder.OnKeyClickListener() {
+                    @Override
+                    public void onOkClick() {
+                        Log.i("debug-app", "InsertBuilder onOkClick");
+                    }
+                })
                 .bind(editText);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (CustomKeyboard.isShow(this)) {
-            CustomKeyboard.hide(this);
-        } else {
-            super.onBackPressed();
-        }
     }
 }

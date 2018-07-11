@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialog;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -27,11 +28,6 @@ public class BottomDialog extends AppCompatDialog {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
-    protected BottomDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
-        super(context, cancelable, cancelListener);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +41,7 @@ public class BottomDialog extends AppCompatDialog {
         window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
     }
 
-//    private static int getThemeResId(Context context, int themeId) {
+//    private int getThemeResId(Context context, int themeId) {
 //        if (themeId == 0) {
 //            TypedValue outValue = new TypedValue();
 //            if (context.getTheme().resolveAttribute(

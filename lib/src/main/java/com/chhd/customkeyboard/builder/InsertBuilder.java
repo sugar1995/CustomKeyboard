@@ -2,9 +2,12 @@ package com.chhd.customkeyboard.builder;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +33,14 @@ public class InsertBuilder {
 
     private EditText editText;
 
+    private OnKeyClickListener onKeyClickListener;
+
     public InsertBuilder() {
+    }
+
+    public InsertBuilder setOnKeyClickListener(OnKeyClickListener onKeyClickListener) {
+        this.onKeyClickListener = onKeyClickListener;
+        return this;
     }
 
     public void bind(final EditText editText) {
@@ -73,6 +83,9 @@ public class InsertBuilder {
         keyboardView.setOnKeyClickListener(new NumberKeyboardView.OnKeyClickListener() {
             @Override
             public void onOkClick() {
+                if (onKeyClickListener != null) {
+                    onKeyClickListener.onOkClick();
+                }
                 if (CustomKeyboard.isShow(activity)) {
                     CustomKeyboard.hide(activity);
                 }
@@ -84,6 +97,16 @@ public class InsertBuilder {
             public boolean onTouch(View v, MotionEvent event) {
                 if (CustomKeyboard.isShow(activity)) {
                     CustomKeyboard.hide(activity);
+                }
+                return false;
+            }
+        });
+        editText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && CustomKeyboard.isShow(activity)) {
+                    CustomKeyboard.hide(activity);
+                    return true;
                 }
                 return false;
             }
@@ -126,4 +149,9 @@ public class InsertBuilder {
             }
         }
     };
+
+    public interface OnKeyClickListener {
+
+        void onOkClick();
+    }
 }
