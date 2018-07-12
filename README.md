@@ -4,9 +4,10 @@
 
 
 ## 依赖
+[ ![Download](https://api.bintray.com/packages/conghuahuadan/maven/customkeyboard/images/download.svg) ](https://bintray.com/conghuahuadan/maven/customkeyboard/_latestVersion)
 ```java
 dependencies {
-    compile 'com.conghuahuadan.android:customkeyboard:1.0.6'
+    compile 'com.conghuahuadan.android:customkeyboard:latestVersion'
 }
 ```
 
