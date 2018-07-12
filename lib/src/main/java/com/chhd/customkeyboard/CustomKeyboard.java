@@ -32,21 +32,4 @@ public class CustomKeyboard {
     public static InsertBuilder insert() {
         return new InsertBuilder();
     }
-
-    public static boolean isShow(Activity activity) {
-        ViewGroup rootView = activity.getWindow().getDecorView().findViewById(android.R.id.content);
-        String tag = activity.getResources().getString(R.string.tag_base_custom_view);
-        BaseKeyboardView baseKeyboardView = rootView.findViewWithTag(tag);
-        return baseKeyboardView != null;
-    }
-
-    public static void hide(Activity activity) {
-        ViewGroup rootView = activity.getWindow().getDecorView().findViewById(android.R.id.content);
-        String tag = activity.getResources().getString(R.string.tag_base_custom_view);
-        BaseKeyboardView baseKeyboardView = rootView.findViewWithTag(tag);
-        if (baseKeyboardView != null) {
-            rootView.removeView(baseKeyboardView);
-            baseKeyboardView.setVisibility(View.GONE);
-        }
-    }
 }

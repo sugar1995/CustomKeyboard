@@ -55,8 +55,8 @@ public class InsertBuilder {
             public boolean onTouch(View v, MotionEvent event) {
                 if (editText.isEnabled() && event.getAction() == MotionEvent.ACTION_DOWN) {
                     Activity activity = (Activity) v.getContext();
-                    if (CustomKeyboard.isShow(activity)) {
-                        CustomKeyboard.hide(activity);
+                    if (isShow(activity)) {
+                        hide(activity);
                     }
                     insert(editText);
                 }
@@ -91,8 +91,8 @@ public class InsertBuilder {
                 if (onKeyClickListener != null) {
                     onKeyClickListener.onOkClick();
                 }
-                if (CustomKeyboard.isShow(activity)) {
-                    CustomKeyboard.hide(activity);
+                if (isShow(activity)) {
+                    hide(activity);
                 }
             }
         });
@@ -100,8 +100,8 @@ public class InsertBuilder {
         rootView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (CustomKeyboard.isShow(activity)) {
-                    CustomKeyboard.hide(activity);
+                if (isShow(activity)) {
+                   hide(activity);
                 }
                 return false;
             }
@@ -109,13 +109,30 @@ public class InsertBuilder {
         editText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && CustomKeyboard.isShow(activity)) {
-                    CustomKeyboard.hide(activity);
+                if (keyCode == KeyEvent.KEYCODE_BACK && isShow(activity)) {
+                   hide(activity);
                     return true;
                 }
                 return false;
             }
         });
+    }
+
+    private boolean isShow(Activity activity) {
+        ViewGroup rootView = activity.getWindow().getDecorView().findViewById(android.R.id.content);
+        String tag = activity.getResources().getString(R.string.tag_base_custom_view);
+        BaseKeyboardView baseKeyboardView = rootView.findViewWithTag(tag);
+        return baseKeyboardView != null;
+    }
+
+    private void hide(Activity activity) {
+        ViewGroup rootView = activity.getWindow().getDecorView().findViewById(android.R.id.content);
+        String tag = activity.getResources().getString(R.string.tag_base_custom_view);
+        BaseKeyboardView baseKeyboardView = rootView.findViewWithTag(tag);
+        if (baseKeyboardView != null) {
+            rootView.removeView(baseKeyboardView);
+            baseKeyboardView.setVisibility(View.GONE);
+        }
     }
 
     private View.OnLayoutChangeListener onLayoutChangeListener = new View.OnLayoutChangeListener() {

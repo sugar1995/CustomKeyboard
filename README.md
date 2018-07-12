@@ -1,3 +1,8 @@
+## 截图
+![image](https://github.com/conghuahuadan/CustomKeyboard/blob/master/screenshots/Snipaste_2018-07-12_00-32-52.png?raw=true)
+![image](https://github.com/conghuahuadan/CustomKeyboard/blob/master/screenshots/Snipaste_2018-07-12_00-33-06.png?raw=true)
+
+
 ## 依赖
 ```java
 dependencies {

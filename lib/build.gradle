@@ -31,7 +31,7 @@ publish {
     userOrg = 'conghuahuadan'
     groupId = 'com.conghuahuadan.android'
     artifactId = 'customkeyboard'
-    publishVersion = '1.0.6'
+    publishVersion = '1.0.7'
     desc = 'customkeyboard'
     website = 'https://github.com/conghuahuadan/CustomKeyboard'
 }
