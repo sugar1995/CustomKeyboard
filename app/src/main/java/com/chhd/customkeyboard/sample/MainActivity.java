@@ -3,9 +3,11 @@ package com.chhd.customkeyboard.sample;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.chhd.customkeyboard.CustomKeyboard;
 import com.chhd.customkeyboard.CustomKeyboardView;
@@ -44,6 +46,24 @@ public class MainActivity extends AppCompatActivity {
                 .setOnKeyClickListener(new PopupBuilder.OnKeyClickListener() {
                     @Override
                     public void onOkClick(Dialog dialog, CustomKeyboardView parent) {
+                        EditText etCount = parent.findViewById(R.id.et_count);
+                        EditText etName = parent.findViewById(R.id.et_name);
+                        EditText etPrice = parent.findViewById(R.id.et_price);
+                        if (TextUtils.isEmpty(etCount.getText())) {
+                            Toast.makeText(instance, "请输入数量", Toast.LENGTH_SHORT).show();
+                            etCount.requestFocus();
+                            return;
+                        }
+                        if (TextUtils.isEmpty(etName.getText())) {
+                            Toast.makeText(instance, "请输入名称", Toast.LENGTH_SHORT).show();
+                            etName.requestFocus();
+                            return;
+                        }
+                        if (TextUtils.isEmpty(etPrice.getText())) {
+                            Toast.makeText(instance, "请输入价格", Toast.LENGTH_SHORT).show();
+                            etPrice.requestFocus();
+                            return;
+                        }
                         dialog.dismiss();
                     }
                 })

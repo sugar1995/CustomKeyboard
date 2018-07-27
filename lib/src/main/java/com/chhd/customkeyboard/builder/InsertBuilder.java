@@ -162,7 +162,7 @@ public class InsertBuilder {
                 int[] etLocation = new int[2];
                 editText.getLocationOnScreen(etLocation);
                 int keyboardTop = etLocation[1] + editText.getHeight() + editText.getPaddingTop()
-                        + editText.getPaddingBottom() + 1;
+                        + editText.getPaddingBottom() ;
                 int moveHeight = keyboardTop + baseKeyboardView.getHeight() - rect.bottom;
                 if (moveHeight > 0) {
                     rootView.getChildAt(0).scrollBy(0, moveHeight);
